@@ -1,0 +1,33 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+<div class="login-wrap">
+  <div class="login-form-wrap">
+    <form action="" method="POST">{% csrf_token %}
+    {{ form.username }}
+    <br>
+    {{ form.password }}
+    <br>
+    <button type="submit" class="login-button">로그인</button>
+  </form>
+  <div class="login-id-or-wrap">
+    <a href="" class="login-email-search">아이디 찾기</a>
+    <a href="" class="login-password-search">비밀번호 찾기</a>
+  </div>
+  <div class="facebook-or-naver-wrap">
+    <a href="">
+    <div class="facebook-login">
+        <img src="{% static 'images/facebook-logo.png' %}" alt="">
+        <p>페이스북 로그인</p>
+    </div>
+    </a>
+    <a href="">
+    <div class="naver-login">
+        <img src="{% static 'images/naver-logo.png' %}" alt="">
+        <p>네이버 로그인</p>
+    </div>
+    </a>
+  </div>
+  </div>
+</div>
+{% endblock %}

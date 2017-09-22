@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'member',
     # 'django_celery_results',
 ]
 
@@ -90,7 +91,7 @@ TEMPLATES = [
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 
-# AUTH_USER_MODEL = 'member.MyUser'
+AUTH_USER_MODEL = 'member.MyUser'
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 AUTH_PASSWORD_VALIDATORS = [

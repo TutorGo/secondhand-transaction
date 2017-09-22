@@ -19,14 +19,17 @@
   <link rel="stylesheet" href="{% static 'assets/dropdown/css/style.css' %}">
   <link rel="stylesheet" href="{% static 'assets/theme/css/style.css' %}">
   <link rel="stylesheet" href="{% static 'assets/mobirise/css/mbr-additional.css' %}" type="text/css">
-  
-  
-  
+  <link rel="stylesheet" href="{% static 'css/login.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/base.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
+
+
+
 </head>
 <body>
 <section class="menu cid-qvxSrJXlqo" once="menu" id="menu1-15" data-rv-view="17">
 
-    
+
 
     <nav class="navbar navbar-expand beta-menu navbar-dropdown align-items-center navbar-fixed-top navbar-toggleable-sm" style="border-bottom: thin solid #003459">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,16 +57,16 @@
                     <a class="nav-link link text-primary display-4" href="https://mobirise.com">
                         &nbsp;회원가입&nbsp;</a>
                 </li></ul>
-            
+
         </div>
     </nav>
 </section>
-
+{% block content %}
 <section class="engine"><a href="https://mobirise.co/h">how to make your own website for free</a></section><section class="features1 cid-qvy4Fy937o" id="features1-18" data-rv-view="11">
-    
-    
 
-    
+
+
+
     <div class="container">
         <div class="media-container-row">
 
@@ -73,7 +76,7 @@
                 </div>
                 <div class="card-box">
                     <h4 class="card-title py-3 mbr-fonts-style display-5">BUY</h4>
-                    
+
                 </div>
             </div>
 
@@ -83,13 +86,13 @@
                 </div>
                 <div class="card-box">
                     <h4 class="card-title py-3 mbr-fonts-style display-5">SELL&nbsp;</h4>
-                    
+
                 </div>
             </div>
 
-            
 
-            
+
+
 
         </div>
 
@@ -98,10 +101,10 @@
 </section>
 
 <section class="features4 cid-qvyaLCr3vW" id="features4-1h" data-rv-view="14">
-    
-         
 
-    
+
+
+
     <div class="container">
         <div class="media-container-row">
             <div class="card p-3 col-12 col-md-6 col-lg-4">
@@ -131,16 +134,16 @@
                 </div>
             </div>
 
-            
+
         </div>
     </div>
 </section>
-
+{% endblock %}
 <section once="" class="cid-qvy75sBC8F" id="footer6-1c" data-rv-view="19">
 
-    
 
-    
+
+
 
     <div class="container">
         <div class="media-container-row align-center mbr-white">
@@ -163,8 +166,11 @@
   <script src="{% static 'assets/touch-swipe/jquery.touch-swipe.min.js' %}"></script>
   <script src="{% static 'assets/smooth-scroll/smooth-scroll.js' %}"></script>
   <script src="{% static 'assets/theme/js/script.js' %}"></script>
-  
-  
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/npm.js' %}"></script>
+
+  </script>
+
   <input name="animation" type="hidden">
   </body>
 </html>
