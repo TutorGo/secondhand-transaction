@@ -31,13 +31,12 @@ EMAIL_HOST_USER = 'fastcmapwps@gmail.com'
 EMAIL_HOST_PASSWORD = common['django']['email']['password']
 EMAIL_PORT = 587
 
-# config_secret변수에 CONFIG_SECRET_COMMON_FILE경로의 파일을 읽은 값을
-# json.loads를 이용해 파이썬 객체로 바꾼형태로 할당
+FACEBOOK_APP_ID = 1440734386005621
+FACEBOOK_SECRET_KEY = common['facebook']['secret_key']
 
-# f = open(CONFIG_SECRET_COMMON_FILE)
-# config_secret_string = f.read()
-# .config_secret = json.loads(config_secret_string)
-# f.close()
+NAVER_APP_ID = 'bTYotz1rrEzNcvvTu3vG'
+NAVER_SECRET_KEY = common['naver']['secret_key']
+
 config_secret_common = json.loads(open(CONFIG_SECRET_COMMON_FILE).read())
 print(config_secret_common)
 # Quick-start development settings - unsuitable for production
@@ -82,6 +81,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'member.utils.context_processors.socials.facebook_info',
+                'member.utils.context_processors.socials.naver_info',
             ],
         },
     },

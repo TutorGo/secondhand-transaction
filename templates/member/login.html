@@ -15,13 +15,13 @@
     <a href="" class="login-password-search">비밀번호 찾기</a>
   </div>
   <div class="facebook-or-naver-wrap">
-    <a href="">
+    <a href="https://www.facebook.com/v2.10/dialog/oauth?client_id={{ facebook_app_id }}&redirect_uri={{ site_url }}{% url 'member:facebook_login' %}">
     <div class="facebook-login">
         <img src="{% static 'images/facebook-logo.png' %}" alt="">
         <p>페이스북 로그인</p>
     </div>
     </a>
-    <a href="">
+    <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id={{ naver_app_id }}&redirect_uri={{ sitr_url }}{% url 'member:naver_login' %}">
     <div class="naver-login">
         <img src="{% static 'images/naver-logo.png' %}" alt="">
         <p>네이버 로그인</p>

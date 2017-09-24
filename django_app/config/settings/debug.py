@@ -18,6 +18,8 @@ MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
 DEBUG = True
 ALLOWED_HOSTS = config_secret_debug['django']['allowed_hosts']
 
+SITE_URL = 'http://localhost:8000'
+
 
 DATABASES = {
     'default': {
