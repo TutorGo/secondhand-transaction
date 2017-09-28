@@ -21,7 +21,7 @@
         <p>페이스북 로그인</p>
     </div>
     </a>
-    <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id={{ naver_app_id }}&redirect_uri={{ sitr_url }}{% url 'member:naver_login' %}">
+    <a href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id={{ naver_app_id }}&redirect_uri={{ site_url }}{% url 'member:naver_login' %}">
     <div class="naver-login">
         <img src="{% static 'images/naver-logo.png' %}" alt="">
         <p>네이버 로그인</p>

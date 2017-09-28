@@ -1,0 +1,35 @@
+@media screen and (max-width: 993px){
+  .login-wrap{
+    .login-form-wrap{
+      max-width: 42vh;
+      .facebook-or-naver-wrap{
+        text-align: center;
+        margin-top: 20px;
+        a{
+          display: block;
+          .facebook-login{
+            height: 45px;
+            max-width:300px;
+            min-width: 250px;
+            p{
+              padding-left: 43px;
+            }
+          }
+        }
+        a{
+          .naver-login{
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-left: 0px;
+            height: 45px;
+            max-width: 300px;
+            min-width: 250px;
+          }
+          p{
+            padding-left: 43px;
+          }
+        }
+      }
+    }
+  }
+}

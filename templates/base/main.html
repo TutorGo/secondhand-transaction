@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="{% static 'css/login.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/base.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/bootstrap-theme.min.css' %}">
-
+  <link rel="stylesheet" href="{% static 'css/login912.min.css' %}">
 
 
 </head>
@@ -50,13 +50,24 @@
                 <span class="navbar-caption-wrap"><a class="navbar-caption text-primary display-1" href="https://mobirise.com">경남대학교 중고거래</a></span>
             </div>
         </div>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-primary display-4" href="https://mobirise.com">
+        {% if user.is_authenticated %}
+         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-primary display-4" href="{% url 'member:logout' %}">
+                        &nbsp;이거가농?</a></li><li class="nav-item"><a class="nav-link link text-primary display-4" href="https://mobirise.com"></a></li>
+                <li class="nav-item">
+                    <a class="nav-link link text-primary display-4" href="https://mobirise.com">
+                        &nbsp;회원가입&nbsp;</a>
+                </li></ul>
+        {% else %}
+             <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-primary display-4" href="{% url 'member:login' %}">
                         &nbsp;로그인</a></li><li class="nav-item"><a class="nav-link link text-primary display-4" href="https://mobirise.com"></a></li>
                 <li class="nav-item">
                     <a class="nav-link link text-primary display-4" href="https://mobirise.com">
                         &nbsp;회원가입&nbsp;</a>
                 </li></ul>
+                 {% endif %}
+
 
         </div>
     </nav>
@@ -72,7 +83,7 @@
 
             <div class="card p-3 col-12 col-md-6">
                 <div class="card-img pb-3">
-                    <span class="mbr-iconfont mbri-bootstrap" style="color: rgb(19, 64, 116);" media-simple="true"></span>
+                    <img src="{% static 'svg/mbri-bootstrap.svg' %}" alt="" class="mbr-iconfont" width="96" height="96">
                 </div>
                 <div class="card-box">
                     <h4 class="card-title py-3 mbr-fonts-style display-5">BUY</h4>
@@ -82,7 +93,7 @@
 
             <div class="card p-3 col-12 col-md-6">
                 <div class="card-img pb-3">
-                    <span class="mbr-iconfont mbri-cash" style="color: rgb(19, 64, 116);" media-simple="true"></span>
+                    <img src="{% static 'svg/mbri-sale.svg' %}" alt="" class="mbr-iconfont" width="96" height="96">
                 </div>
                 <div class="card-box">
                     <h4 class="card-title py-3 mbr-fonts-style display-5">SELL&nbsp;</h4>
@@ -168,8 +179,6 @@
   <script src="{% static 'assets/theme/js/script.js' %}"></script>
   <script src="{% static 'js/bootstrap.min.js' %}"></script>
   <script src="{% static 'js/npm.js' %}"></script>
-
-  </script>
 
   <input name="animation" type="hidden">
   </body>

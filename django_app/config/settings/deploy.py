@@ -24,8 +24,9 @@ STATICFILES_STORAGE = 'config.storages.StaticStorage'
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
+SITE_URL = 'http://www.mozzi.co.kr'
 # 배포모드니까 DEBUG는 False
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = config_secret_deploy['django']['allowed_hosts']
 
 # Database
@@ -38,12 +39,12 @@ DATABASES = config_secret_deploy['django']['databases']
 #     aws_secret_access_key=urllib.parse.quote(config['aws']['secret_access_key'], safe=''),
 # )
 # CELERY_BROKER_URL = 'https://sqs.ap-northeast-2.amazonaws.com/982738052650/celery'
-CELERY_BROKER_URL = 'redis://redis-test.s9cegi.0001.apn2.cache.amazonaws.com:6379'
+# CELERY_BROKER_URL = 'redis://redis-test.s9cegi.0001.apn2.cache.amazonaws.com:6379'
 # CELERY_BROKER_TRANSPORT_OPTIONS = {
 #     'region': 'ap-northeast-2',
 # }
 # sqs는 sqs.ap-morheast-2
-CELERY_RESULT_BACKEND = 'redis://redis-test.s9cegi.0001.apn2.cache.amazonaws.com:6379' #redis
+# CELERY_RESULT_BACKEND = 'redis://redis-test.s9cegi.0001.apn2.cache.amazonaws.com:6379' #redis
 # sqs 는 django-db 엘라시틱캐쉬는 redis
 
 print('@@@@@@ DEBUG:', DEBUG)

@@ -5,7 +5,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.conf import settings
 from django.contrib.auth import login as django_login
 # Create your views here.
-from member.utils.socials_exception import DebugTokenException, GetAccessTokenException
+from member.utils.socials_exception import DebugTokenException, GetAccessTokenException, NaverGetAccessTokenException
 from .forms import LoginForm
 import requests
 
@@ -124,4 +124,42 @@ def facebook_login(request):
 def naver_login(request):
 
     code = request.GET.get('code')
-    print(code)
+    print(request)
+
+    def get_access_token(code):
+
+        access_token_url = 'https://nid.naver.com/oauth2.0/token'
+
+        access_token_params = {
+            'grant_type': 'authorization_cod',
+            'client_id': settings.NAVER_APP_ID,
+            'client_secret': settings.NAVER_SECRET_KEY,
+            'code': code
+        }
+
+        response = requests.get(access_token_url, access_token_params)
+
+        result = response.json()
+        if 'error' in result:
+            raise NaverGetAccessTokenException(result)
+        else:
+            return result
+
+
+    def get_user_info(access_token):
+
+        user_info_header = "Bearer " + access_token
+        user_info_url = "https://openapi.naver.com/v1/nid/me"
+        header = {"Authorization" : user_info_header}
+        response = requests.get(user_info_url, headers=header)
+        result = response.json()
+
+        print(result)
+
+
+    access_token = get_access_token(code)
+    get_user_info(access_token['access_token'])
+
+class Logout(LogoutView):
+    def get(self, request, *args, **kwargs):
+        return redirect('main')
