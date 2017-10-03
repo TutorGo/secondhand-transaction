@@ -32,6 +32,9 @@ ALLOWED_HOSTS = config_secret_deploy['django']['allowed_hosts']
 # Database
 DATABASES = config_secret_deploy['django']['databases']
 
+NAVER_APP_ID = 'bTYotz1rrEzNcvvTu3vG'
+NAVER_SECRET_KEY = common['naver']['deploy_secret_key']
+
 # Celery
 # CELERY_BROKER_TRANSPORT = 'redis'
 # CELERY_BROKER_URL = 'sqs://{aws_access_key_id}:{aws_secret_access_key}@'.format(

@@ -24,8 +24,8 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = MyUser
         widgets = {
-            'email': forms.TextInput(attrs={'placeholder': '생성할 아이디를 입력하시오'}),
-            'nickname': forms.TextInput(attrs={'placeholder': '이름을 입력하시오'}),
+            'email': forms.TextInput(attrs={'placeholder': 'email을 입력하시오'}),
+            'nickname': forms.TextInput(attrs={'placeholder': '별명을 입력하시오'}),
         }
         fields = (
             'email',

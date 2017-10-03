@@ -34,8 +34,7 @@ EMAIL_PORT = 587
 FACEBOOK_APP_ID = 1440734386005621
 FACEBOOK_SECRET_KEY = common['facebook']['secret_key']
 
-NAVER_APP_ID = 'bTYotz1rrEzNcvvTu3vG'
-NAVER_SECRET_KEY = common['naver']['secret_key']
+
 
 config_secret_common = json.loads(open(CONFIG_SECRET_COMMON_FILE).read())
 print(config_secret_common)
@@ -68,6 +67,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+ROOT_URLCONF = 'config.urls'
 
 
 TEMPLATES = [

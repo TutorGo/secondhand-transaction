@@ -1,13 +1,17 @@
+import requests
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import get_user_model
-from django.shortcuts import render, redirect
-from django.contrib.auth.views import LoginView, LogoutView
-from django.conf import settings
 from django.contrib.auth import login as django_login
+from django.contrib.auth.views import LoginView, LogoutView
+from django.shortcuts import redirect
+
 # Create your views here.
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
+
 from member.utils.socials_exception import DebugTokenException, GetAccessTokenException, NaverGetAccessTokenException
-from .forms import LoginForm
-import requests
+from .forms import LoginForm, SignUpForm
 
 User = get_user_model()
 
@@ -20,7 +24,6 @@ class Login(LoginView):
 def facebook_login(request):
     # facebook 로그인 버튼을 누르면 code를 반환한다.
     code = request.GET.get('code')
-
     def get_access_token(code):
         # access_token을 받아올 url
         access_token_url = 'https://graph.facebook.com/v2.10/oauth/access_token'
@@ -45,7 +48,7 @@ def facebook_login(request):
         )
 
         result = response.json()
-
+        print(request.path)
         if 'access_token' in result:
             return result['access_token']
         elif 'error' in result:
@@ -98,6 +101,7 @@ def facebook_login(request):
         }
         response = requests.get(url_user_info, params=url_user_info_params)
         result = response.json()
+        print(result)
         return result
 
     if not code:
@@ -122,7 +126,14 @@ def facebook_login(request):
 
 
 def naver_login(request):
-
+    '''
+    1. https://developers.naver.com/main/ 내 에플리케이션 등록 클릭
+    2. 애플리케이션 등록을 눌리고 앱이름 설정 사용 API 네아로(네이버 아이디 로그인)클릭
+    3. 추가 권한 설정
+    4. 환경 추가 에서 pc웹
+    5. 서비스 URL 의 설명에는 도메인만 적으라고 하지만  http://localhost:8000 다 적어줘야함
+    6. Callback URL도 http://localhost:8000/member/naver_login 설정
+    '''
     code = request.GET.get('code')
     print(request)
 
@@ -131,10 +142,10 @@ def naver_login(request):
         access_token_url = 'https://nid.naver.com/oauth2.0/token'
 
         access_token_params = {
-            'grant_type': 'authorization_cod',
+            'grant_type': 'authorization_code',
             'client_id': settings.NAVER_APP_ID,
             'client_secret': settings.NAVER_SECRET_KEY,
-            'code': code
+            'code': code,
         }
 
         response = requests.get(access_token_url, access_token_params)
@@ -154,11 +165,33 @@ def naver_login(request):
         response = requests.get(user_info_url, headers=header)
         result = response.json()
 
-        print(result)
+        return result
 
+        # 오류를 출력하고 이점 URL로 리다이렉트
 
-    access_token = get_access_token(code)
-    get_user_info(access_token['access_token'])
+    def error_message_and_redirect_referer():
+        error_message = 'Facebook login error'
+        messages.error(request, error_message)
+
+        # 이전 URL 로 리다이렉트
+        return redirect(request.META['HTTP_REFERER'])
+
+    try:
+        access_token = get_access_token(code)
+        user_info = get_user_info(access_token['access_token'])
+        user = User.objects.get_or_create_naver_user(user_info)
+        django_login(request, user)
+        return redirect('main')
+    except NaverGetAccessTokenException as e:
+        print(e.error)
+        print(e.error_description)
+        return error_message_and_redirect_referer()
+
+class SignUpView(CreateView):
+    form_class = SignUpForm
+    template_name = 'member/signup-page.html'
+    success_url = reverse_lazy('main')
+
 
 class Logout(LogoutView):
     def get(self, request, *args, **kwargs):

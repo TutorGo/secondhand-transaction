@@ -20,6 +20,9 @@ ALLOWED_HOSTS = config_secret_debug['django']['allowed_hosts']
 
 SITE_URL = 'http://localhost:8000'
 
+NAVER_APP_ID = 'zaZpSNfZzYCNisIZs3L1'
+NAVER_SECRET_KEY = common['naver']['local_secret_key']
+
 
 DATABASES = {
     'default': {
@@ -27,5 +30,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+
 print('@@@@@@ DEBUG:', DEBUG)
 print('@@@@@@ ALLOWED_HOSTS:', ALLOWED_HOSTS)

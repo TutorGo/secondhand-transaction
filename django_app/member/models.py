@@ -1,3 +1,4 @@
+from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.db import models
 
@@ -8,8 +9,7 @@ class MyUserManager(UserManager):
             self.model.USER_TYPE_FACEBOOK,
             user_info['id']
         )
-        nickname = '{}_{}'.format(
-            user_info.get('name', ''),
+        nickname = '{}'.format(
             user_info['id'],
         )
 
@@ -21,8 +21,20 @@ class MyUserManager(UserManager):
 
         return user
 
+    def get_or_create_naver_user(self, user_info):
+        email = user_info['response']['email']
+        nickname = user_info['response']['id']
+
+        user, _ = self.get_or_create(
+            email=email,
+            user_type=self.model.USER_TYPE_NAVER,
+            nickname=str(nickname)
+        )
+
+        return user
+
 # Create your models here.
-class MyUser(AbstractUser):
+class MyUser(AbstractBaseUser):
     USER_TYPE_GENERAL = 'g'
     USER_TYPE_FACEBOOK = 'f'
     USER_TYPE_NAVER = 'n'
@@ -34,6 +46,11 @@ class MyUser(AbstractUser):
     user_type = models.CharField(max_length=1, default='g', choices=USER_TYPE)
     email = models.CharField(unique=True, max_length=30)
     nickname = models.CharField(max_length=15)
-    REQUIRED_FIELDS = ['email']
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['nickname']
 
     objects = MyUserManager()
+
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
