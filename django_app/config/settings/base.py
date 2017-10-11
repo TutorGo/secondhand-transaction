@@ -27,14 +27,14 @@ common=json.loads(open(CONFIG_SECRET_COMMON_FILE).read())
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'fastcmapwps@gmail.com'
+EMAIL_HOST_USER = 'kyungnam@gmail.com'
 EMAIL_HOST_PASSWORD = common['django']['email']['password']
 EMAIL_PORT = 587
 
 FACEBOOK_APP_ID = 1440734386005621
 FACEBOOK_SECRET_KEY = common['facebook']['secret_key']
 
-
+LOGIN_REDIRECT_URL = 'main'
 
 config_secret_common = json.loads(open(CONFIG_SECRET_COMMON_FILE).read())
 print(config_secret_common)

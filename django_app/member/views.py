@@ -4,12 +4,17 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth import login as django_login
 from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import redirect
 
 # Create your views here.
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 from django.views.generic import CreateView
 
+from member.tokens import account_activation_token
 from member.utils.socials_exception import DebugTokenException, GetAccessTokenException, NaverGetAccessTokenException
 from .forms import LoginForm, SignUpForm
 
@@ -48,7 +53,6 @@ def facebook_login(request):
         )
 
         result = response.json()
-        print(request.path)
         if 'access_token' in result:
             return result['access_token']
         elif 'error' in result:
@@ -73,7 +77,6 @@ def facebook_login(request):
 
         result = response.json()
 
-        print(result)
         if 'error' in result:
             raise DebugTokenException(result)
         else:
@@ -101,7 +104,6 @@ def facebook_login(request):
         }
         response = requests.get(url_user_info, params=url_user_info_params)
         result = response.json()
-        print(result)
         return result
 
     if not code:
@@ -189,7 +191,7 @@ def naver_login(request):
 
 class SignUpView(CreateView):
     form_class = SignUpForm
-    template_name = 'member/signup-page.html'
+    template_name = 'member/signup.html'
     success_url = reverse_lazy('main')
 
 

@@ -33,6 +33,17 @@ class MyUserManager(UserManager):
 
         return user
 
+    def create_user(self, email, nickname, password=None, **extra_fields):
+        user = self.model(
+            email=email,
+            nickname=nickname
+        )
+        user.set_password(password)
+        user.is_active = False
+        user.save()
+
+        return user
+
 # Create your models here.
 class MyUser(AbstractBaseUser):
     USER_TYPE_GENERAL = 'g'
