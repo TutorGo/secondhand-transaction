@@ -5,18 +5,21 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth import login as django_login
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.sites.shortcuts import get_current_site
+from django import forms
+from django.http import HttpResponse
 from django.shortcuts import redirect
 
 # Create your views here.
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import CreateView
 
-from member.tokens import account_activation_token
 from member.utils.socials_exception import DebugTokenException, GetAccessTokenException, NaverGetAccessTokenException
 from .forms import LoginForm, SignUpForm
+from .tokens import account_activation_token
+from .tasks import email_send
 
 User = get_user_model()
 
@@ -193,6 +196,37 @@ class SignUpView(CreateView):
     form_class = SignUpForm
     template_name = 'member/signup.html'
     success_url = reverse_lazy('main')
+
+    def form_valid(self, form):
+        user = form.save()
+        current_site = get_current_site(self.request)
+        subject = 'Activate your blog account.'
+        message = render_to_string('member/acc_active_email.html', {
+            'user': user, 'domain': current_site.domain,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': account_activation_token.make_token(user),
+        })
+        # user.email_user(subject, message)
+        toemail = user.email
+        print(1312321)
+        email_send.delay(subject, message, toemail)
+        return HttpResponse('메일을 확인해서 인증해주세요.')
+
+
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        django_login(request, user)
+        # return redirect('home')
+        return HttpResponse('인증이 완료되었습니다. 게시판 사용이 가능합니다')
+    else:
+        return HttpResponse('Activation link is invalid!')
 
 
 class Logout(LogoutView):

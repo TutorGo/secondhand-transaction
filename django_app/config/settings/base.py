@@ -27,7 +27,7 @@ common=json.loads(open(CONFIG_SECRET_COMMON_FILE).read())
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'kyungnam@gmail.com'
+EMAIL_HOST_USER = 'kyungnamused@gmail.com'
 EMAIL_HOST_PASSWORD = common['django']['email']['password']
 EMAIL_PORT = 587
 
@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'member',
-    # 'django_celery_results',
+    'django_celery_results',
 ]
 
 MIDDLEWARE = [

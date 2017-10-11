@@ -26,7 +26,7 @@ MEDIA_URL = '/media/'
 
 SITE_URL = 'http://www.mozzi.co.kr'
 # 배포모드니까 DEBUG는 False
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = config_secret_deploy['django']['allowed_hosts']
 
 # Database
@@ -34,6 +34,9 @@ DATABASES = config_secret_deploy['django']['databases']
 
 NAVER_APP_ID = 'bTYotz1rrEzNcvvTu3vG'
 NAVER_SECRET_KEY = common['naver']['deploy_secret_key']
+
+CELERY_BROKER_URL = 'redis://usednara.s9cegi.0001.apn2.cache.amazonaws.com:6379/'
+CELERY_RESULT_BACKEND = 'redis://usednara.s9cegi.0001.apn2.cache.amazonaws.com:6379'
 
 # Celery
 # CELERY_BROKER_TRANSPORT = 'redis'
