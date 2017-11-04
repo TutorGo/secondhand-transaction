@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'member',
+    'post',
     'django_celery_results',
 ]
 

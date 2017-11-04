@@ -14,7 +14,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(ROOT_DIR, '.static_root')
 
 #  media
-MEDIA_URL = '/media/'
+MEDIA_URL = '/.media/'
 MEDIA_ROOT = os.path.join(ROOT_DIR, '.media')
 
 # 디버그모드니까 DEBUG는 True

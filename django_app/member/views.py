@@ -115,6 +115,7 @@ def facebook_login(request):
     try:
         access_token = get_access_token(code)
         debug_result = debug_access_token(access_token)
+        print(debug_result)
         user_info = get_user_info(user_id=debug_result['data']['user_id'], token=access_token)
         user = User.objects.get_or_create_facebook_user(user_info)
 
