@@ -3,7 +3,25 @@
 {% block content %}
 <section class="features18 popup-btn-cards cid-qzvQdijbXZ" id="features18-1o" data-rv-view="101">
   <div class="container">
-  <!-- {% for post in posts %}
+    <div class="search-bar">
+      <form>
+        <input type="text" placeholder="검색어 입력">
+        <button type="submit"></button>
+      </form>
+    </div>
+      <div class="category-bar">
+         <a class="category-btn" category='all' href="{% url 'post:sell_page' %}">모든 상품</a>
+         <a class="category-btn" category='e' href="{% url 'post:sell_page' %}?category=e" onclick="return false;">전자기기</a>
+         <a class="category-btn" category='fc' href="{% url 'post:sell_page' %}?category=fc" onclick="return false;">패션의류</a>
+         <a class="category-btn" category='fg' href="{% url 'post:sell_page' %}?category=fg" onclick="return false;">패션잡화</a>
+         <a class="category-btn" category='cb' href="{% url 'post:sell_page' %}?category=cb" onclick="return false;">화장풍/미용</a>
+         <a class="category-btn" category='s' href="{% url 'post:sell_page' %}?category=s" onclick="return false;">스포츠/레저</a>
+         <a class="category-btn" category='b' href="{% url 'post:sell_page' %}?category=b" onclick="return false;">도서</a>
+     </div>
+     <div class="post-register">
+       글작성
+     </div>
+  <!--{% for post in posts %}
       {% if forloop.counter == 1 or forloop.counter0|divisibleby:4 %}
         <div class="media-container-row pt-5 ">
           {% endif %}
@@ -32,34 +50,86 @@
   </div>
 </section>
 <script type="text/javascript">
-var offset = 4;
-var count = "{{ count }}"
+var count = "{{ count }}";
 var isLoading = false;
+var category = ""
+var offset = 8;
+
+//category-btn 클래스를 클릭하면 발생하는 이벤트
+$('.category-btn').click(function(){
+  // $('category-btn').removeClass('category-btn');
+  // $(this).addClass('selected');
+  // category-btn 클래스의 catrgory의 값을 들고와서 저장
+  category = $(this).attr('category');
+  // 페이지 변경없이 url만 변경
+  history.pushState('','','?category='+category);
+  ChangePost(category)
+  return false;
+});
+// 페이지를 새로고침 했을 때 카테고리를 불러오기 위함
+if (performance.navigation.type == 1) {
+  var category = '{{ request.GET.category }}';
+}
+// 페이지가 처음 로드 되었을 때 초기 파일들을 불러오기 위함
+if (window.performance) {
+  loadPostList(category);
+  offset += 4;
+}
+// 스크롤바가 bottom-100 에 닿으면 실행
 $(window).scroll(function() {
  if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
    if(isLoading == false){
-     loadPostList();
-     offset += 4
+     loadPostList(category);
+     // 스크롤바를 밑으로 내릴때 마다 범위를 변경하기 위함
+     offset += 4;
    }
  }
 });
-function loadPostList() {
+function ChangePost(category){
+  // ChangePost가 실행할 때 부드럽게 변경하기 위해서 공백을 생성함
+  $('.cid-qzvQdijbXZ .container').append("<div class=soft-change></div>")
+  // 기존의 Post 감싸고 있는 pt-5 클래스 삭제
+  $('.pt-5').remove();
+  loadPostList(category);
+  // 앞에 만들었던 빈 공백의 .soft-change 클래스를 0.1초 간격을 두고 삭제
+  setTimeout(function()
+    {
+      $('.soft-change').remove();
+    },100);
+  offset += 4;
+}
+function loadPostList(category) {
+  // 여러번 실행되지 않게 하는 트리거
   isLoading = true;
+  // 배열 선언
   var newDom = new Array();
   var newDomCard = new Array();
+  if (category == "" || category == 'all'){
+    var sell_url = '/post/ajax/sell/?offset=' + offset
+  } else {
+    var sell_url = '/post/ajax/sell/?category=' + category + '&offset=' + offset
+  }
   $.ajax({
-    url: '/post/ajax/sell/?offset=' + offset,
-    success: function(data){
+    url: sell_url,
+        success: function(data){
       for (var i = 0; i < data.length; i++){
+        // firstPost로 고유한 값을 만들기 위함 이유는 jquery newDomCard.append('<div class="card-img"></div>');
+        // 실행시에 계속 4개가 생겨버림
         var firstPost = data[0];
         var CurPost = data[i];
-        if (i == 0){
+        if (i % 4 == 0){
+          // 새로운 돔을 만듬
           newDom[firstPost.pk] = $('<div class="media-container-row pt-5 "></div>');
+          // .cid-qzvQdijbXZ .container 클래스 안에 새로운 돔을 생성
         $('.cid-qzvQdijbXZ .container').append(newDom[firstPost.pk]);
       }
         newDom[firstPost.pk].append('<div class="card p-3 col-12 col-md-6 col-lg-3"><div class="card-wrapper card'+i+' popup-btn"></div></div>');
+        // newDom[firstPost.pk]에서 div.cardi 이름을 가진 클래스를 새로운 돔으로 생성
         var newDomCard = newDom[firstPost.pk].find('div.card'+i+'');
         newDomCard.append('<div class="card-img"></div>');
+        newDomCard.append('<div class="card-box"><h4 class="card-title mbr-fonts-style display-7"></h4></div>')
+        var newDomCard_card_title = newDomCard.find('.card-title')
+        newDomCard_card_title.append(CurPost.title)
         var newDomCardimg = newDomCard.find('.card-img');
         newDomCardimg.append('<div class="mbr-overlay"></div>')
         newDomCardimg.append('<div class="mbr-section-btn text-center"></div>')
@@ -75,5 +145,7 @@ function loadPostList() {
       isLoading = false;
     },2000);
 }
+
 </script>
+
 {% endblock %}

@@ -7,7 +7,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="generator" content="Mobirise v4.3.0, mobirise.com">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <link rel="shortcut icon" href="{% static 'assets/images/2776897417-s3rmbcza-b0e6b3b2b4eb-bdc9babcb7ceb0ed-889x689.jpg' %}" type="image/x-icon">
   <meta name="description" content="">
   <title>Home</title>
@@ -26,6 +27,7 @@
   <link rel="stylesheet" href="{% static 'css/login912.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/signup.css' %}">
   <link rel="stylesheet" href="{% static 'css/modal.css' %}">
+  <link rel="stylesheet" href="{% static 'css/sell_page.min.css' %}">
 
 
 </head>
@@ -46,11 +48,11 @@
         <div class="menu-logo">
             <div class="navbar-brand">
                 <span class="navbar-logo">
-                    <a href="https://mobirise.com">
+                    <a href="{% url 'main' %}">
                          <img src="{% static 'assets/images/2776897417-s3rmbcza-b0e6b3b2b4eb-bdc9babcb7ceb0ed-889x689.jpg' %}" alt="Mobirise" title="" media-simple="true" style="height: 3.8rem;">
                     </a>
                 </span>
-                <span class="navbar-caption-wrap"><a class="navbar-caption text-primary display-1" href="https://mobirise.com">경남대학교 중고거래</a></span>
+                <span class="navbar-caption-wrap"><a class="navbar-caption text-primary display-1" href="{% url 'main' %}">경남대학교 중고거래</a></span>
             </div>
         </div>
         {% if user.is_authenticated %}
@@ -85,6 +87,7 @@
         <div class="media-container-row">
 
             <div class="card p-3 col-12 col-md-6">
+                <a href="">
                 <div class="card-img pb-3">
                     <img src="{% static 'svg/mbri-bootstrap.svg' %}" alt="" class="mbr-iconfont" width="96" height="96">
                 </div>
@@ -92,9 +95,11 @@
                     <h4 class="card-title py-3 mbr-fonts-style display-5">BUY</h4>
 
                 </div>
+                    </a>
             </div>
 
             <div class="card p-3 col-12 col-md-6">
+                <a href="{% url 'post:sell_page' %}">
                 <div class="card-img pb-3">
                     <img src="{% static 'svg/mbri-cash.svg' %}" alt="" class="mbr-iconfont" width="96" height="96">
                 </div>
@@ -102,6 +107,7 @@
                     <h4 class="card-title py-3 mbr-fonts-style display-5">SELL&nbsp;</h4>
 
                 </div>
+                    </a>
             </div>
 
 
