@@ -56,24 +56,20 @@
             </div>
         </div>
         {% if user.is_authenticated %}
-         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-primary display-4" href="{% url 'member:logout' %}">
-                        &nbsp;로그아웃</a></li><li class="nav-item"><a class="nav-link link text-primary display-4" href="https://mobirise.com"></a></li>
-                <li class="nav-item">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-primary display-4" href="https://mobirise.com"></a></li>
+                <li class="nav-item"><a class="nav-link link text-primary display-4" href="https://mobirise.com">삽니다</a></li><li class="nav-item"><a class="nav-link link text-primary display-4" href="{% url 'post:sell_page' %}">&nbsp; 팝니다</a></li><li class="nav-item"><a class="nav-link link text-primary display-4" href="{% url 'member:logout' %}">로그아웃</a></li><li class="nav-item">
                     <a class="nav-link link text-primary display-4" href="https://mobirise.com">
                         &nbsp;회원정보&nbsp;</a>
                 </li></ul>
         {% else %}
-             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-primary display-4" href="{% url 'member:login' %}">
-                        &nbsp;로그인</a></li><li class="nav-item"><a class="nav-link link text-primary display-4" href="https://mobirise.com"></a></li>
-                <li class="nav-item">
-                    <a class="nav-link link text-primary display-4" href="{% url 'member:signup' %}">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-primary display-4" href="https://mobirise.com"></a></li>
+                <li class="nav-item"><a class="nav-link link text-primary display-4" href="https://mobirise.com">삽니다</a></li><li class="nav-item"><a class="nav-link link text-primary display-4" href="{% url 'post:sell_page' %}">&nbsp; 팝니다</a></li><li class="nav-item"><a class="nav-link link text-primary display-4" href="{% url 'member:login' %}">로그인</a></li><li class="nav-item">
+                    <a class="nav-link link text-primary display-4" href="{% url 'member:signup'%}">
                         &nbsp;회원가입&nbsp;</a>
                 </li></ul>
-                 {% endif %}
-
-
+        {% endif %}
         </div>
     </nav>
 </section>

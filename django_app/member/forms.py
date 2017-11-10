@@ -10,7 +10,7 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 MyUser = get_user_model()
 
 class LoginForm(AuthenticationForm):
-    username = forms.CharField(max_length=20, widget=forms.TextInput\
+    username = forms.CharField(max_length=40, widget=forms.TextInput\
                                 (attrs={'placeholder': 'Email', 'class': 'login-email'}))
     password = forms.CharField(max_length=20, widget=forms.PasswordInput\
                                 (attrs={'placeholder': 'Password', 'class': 'login-password'}))

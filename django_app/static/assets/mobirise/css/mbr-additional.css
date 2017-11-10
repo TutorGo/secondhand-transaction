@@ -2197,6 +2197,7 @@ body {
   overflow: hidden;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
+  margin-bottom: 12px;
 }
 
 .cid-qzvQdijbXZ .card-wrapper .card-img .mbr-overlay {
@@ -2211,10 +2212,22 @@ body {
   margin: auto;
 }
 .cid-qzvQdijbXZ .card-wrapper .card-box {
-  background-color: #ffffff;
-  padding: 0 2rem 2rem 2rem;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+  height: 42px;
+  line-height: 21px;
+  font-size: 14px;
+  color: black;
+  margin-bottom: 12px;
+}
+.cid-qzvQdijbXZ .card-wrapper .card-price {
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: bold;
+  float: right;
+}
+.cid-qzvQdijbXZ .card-wrapper .card-price span{
+  font-weight: normal;
+  font-size: 14px;
+  color: #666666;
 }
 .cid-qzvQdijbXZ .card-wrapper .card-box h4 {
   font-weight: 500;

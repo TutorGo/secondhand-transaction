@@ -27,7 +27,7 @@ MEDIA_URL = '/media/'
 # SITE_URL = 'http://www.mozzi.co.kr'
 SITE_URL = 'http://localhost:8000'
 # 배포모드니까 DEBUG는 False
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = config_secret_deploy['django']['allowed_hosts']
 
 # Database

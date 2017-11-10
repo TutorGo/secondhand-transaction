@@ -5,12 +5,12 @@
   <div class="container">
     <div class="search-bar">
       <form>
-        <input type="text" placeholder="검색어 입력">
-        <button type="submit"></button>
-      </form>
+        {{ form.search_item }}
+			<button class="search-btn" onclick="return false;"></button>
+		</form>
     </div>
       <div class="category-bar">
-         <a class="category-btn" category='all' href="{% url 'post:sell_page' %}">모든 상품</a>
+         <a class="category-btn" category='' href="{% url 'post:sell_page' %}">모든 상품</a>
          <a class="category-btn" category='e' href="{% url 'post:sell_page' %}?category=e" onclick="return false;">전자기기</a>
          <a class="category-btn" category='fc' href="{% url 'post:sell_page' %}?category=fc" onclick="return false;">패션의류</a>
          <a class="category-btn" category='fg' href="{% url 'post:sell_page' %}?category=fg" onclick="return false;">패션잡화</a>
@@ -52,9 +52,17 @@
 <script type="text/javascript">
 var count = "{{ count }}";
 var isLoading = false;
-var category = ""
+var category = false;
+var search_result = false;
 var offset = 8;
-
+$('.search-btn').click(function(){
+  search_result = document.getElementById('search-btn').value;
+  history.pushState('','','?search=' + search_result);
+  offset = 8;
+  category = false;
+  ChangePost();
+  return false;
+})
 //category-btn 클래스를 클릭하면 발생하는 이벤트
 $('.category-btn').click(function(){
   // $('category-btn').removeClass('category-btn');
@@ -62,35 +70,42 @@ $('.category-btn').click(function(){
   // category-btn 클래스의 catrgory의 값을 들고와서 저장
   category = $(this).attr('category');
   // 페이지 변경없이 url만 변경
-  history.pushState('','','?category='+category);
-  ChangePost(category)
+  if (category == ''){
+    history.pushState('','','{{ request.path }}');
+  } else {
+    history.pushState('','','?category='+category);
+  }
+  offset = 8;
+  search_result = false;
+  ChangePost();
   return false;
 });
 // 페이지를 새로고침 했을 때 카테고리를 불러오기 위함
 if (performance.navigation.type == 1) {
-  var category = '{{ request.GET.category }}';
+  category = '{{ request.GET.category }}';
+  search_result = '{{ request.GET.search }}';
 }
 // 페이지가 처음 로드 되었을 때 초기 파일들을 불러오기 위함
 if (window.performance) {
-  loadPostList(category);
+  loadPostList();
   offset += 4;
 }
 // 스크롤바가 bottom-100 에 닿으면 실행
 $(window).scroll(function() {
  if($(window).scrollTop() + $(window).height() > $(document).height() - 100) {
    if(isLoading == false){
-     loadPostList(category);
+     loadPostList();
      // 스크롤바를 밑으로 내릴때 마다 범위를 변경하기 위함
      offset += 4;
    }
  }
 });
-function ChangePost(category){
+function ChangePost(){
   // ChangePost가 실행할 때 부드럽게 변경하기 위해서 공백을 생성함
   $('.cid-qzvQdijbXZ .container').append("<div class=soft-change></div>")
   // 기존의 Post 감싸고 있는 pt-5 클래스 삭제
   $('.pt-5').remove();
-  loadPostList(category);
+  loadPostList();
   // 앞에 만들었던 빈 공백의 .soft-change 클래스를 0.1초 간격을 두고 삭제
   setTimeout(function()
     {
@@ -98,16 +113,19 @@ function ChangePost(category){
     },100);
   offset += 4;
 }
-function loadPostList(category) {
+function loadPostList() {
   // 여러번 실행되지 않게 하는 트리거
   isLoading = true;
   // 배열 선언
   var newDom = new Array();
   var newDomCard = new Array();
-  if (category == "" || category == 'all'){
-    var sell_url = '/post/ajax/sell/?offset=' + offset
+  if (category || category == 'all'){
+    var sell_url = '/post/ajax/sell/?category=' + category + '&offset=' + offset;
+    console.log(sell_url);
+  } else if (search_result) {
+    var sell_url = '/post/ajax/sell/?search='+ search_result + '&offset=' + offset;
   } else {
-    var sell_url = '/post/ajax/sell/?category=' + category + '&offset=' + offset
+    var sell_url = '/post/ajax/sell/?offset=' + offset;
   }
   $.ajax({
     url: sell_url,
@@ -127,15 +145,19 @@ function loadPostList(category) {
         // newDom[firstPost.pk]에서 div.cardi 이름을 가진 클래스를 새로운 돔으로 생성
         var newDomCard = newDom[firstPost.pk].find('div.card'+i+'');
         newDomCard.append('<div class="card-img"></div>');
-        newDomCard.append('<div class="card-box"><h4 class="card-title mbr-fonts-style display-7"></h4></div>')
-        var newDomCard_card_title = newDomCard.find('.card-title')
-        newDomCard_card_title.append(CurPost.title)
+        newDomCard.append('<div class="card-box"></div>');
+        newDomCard.append('<div class="card-price"></div>');
+        var newDomCard_card_title = newDomCard.find('.card-box');
+        newDomCard_card_title.append('['+CurPost.category+']');
+        newDomCard_card_title.append('&nbsp;'+CurPost.title);
+        newDomCard.find('.card-price').append(CurPost.price);
+        newDomCard.find('.card-price').append('<span>원</span>');
         var newDomCardimg = newDomCard.find('.card-img');
-        newDomCardimg.append('<div class="mbr-overlay"></div>')
-        newDomCardimg.append('<div class="mbr-section-btn text-center"></div>')
-        newDomCardimg.append('<img src="'+CurPost.photo+'" alt="Mobirise" media-simple="true">')
-        var newDomCard_a_tag = newDomCardimg.find('div.mbr-section-btn')
-        newDomCard_a_tag.append('<a href="https://mobirise.com" class="btn btn-primary display-4">자세히 보기</a>')
+        newDomCardimg.append('<div class="mbr-overlay"></div>');
+        newDomCardimg.append('<div class="mbr-section-btn text-center"></div>');
+        newDomCardimg.append('<img src="'+CurPost.photo+'" alt="Mobirise" media-simple="true">');
+        var newDomCard_a_tag = newDomCardimg.find('div.mbr-section-btn');
+        newDomCard_a_tag.append('<a href="https://mobirise.com" class="btn btn-primary display-4">자세히 보기</a>');
 
       }
 }

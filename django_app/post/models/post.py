@@ -1,3 +1,4 @@
+import locale
 from django.db import models
 from django.conf import settings
 
@@ -23,9 +24,17 @@ class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
     category = models.CharField(max_length=2, choices=CATEGORY_TYPE)
     sell_or_buy = models.CharField(max_length=4, choices=POST_TYPE)
-    price = models.PositiveIntegerField()
+    price = models.CharField(max_length=10)
     title = models.CharField(max_length=30)
     content = models.TextField()
     image_1 = models.ImageField(upload_to='post/%Y/%m/%d', default=None)
     image_2 = models.ImageField(upload_to='post/%Y/%m/%d', default=None, blank=True)
     image_3 = models.ImageField(upload_to='post/%Y/%m/%d', default=None, blank=True)
+
+
+    def clean(self):
+        self.price = format(int(self.price), ',d')
+        print(self.price)
+        super(Post, self).clean()
+
+
