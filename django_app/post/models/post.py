@@ -31,6 +31,11 @@ class Post(models.Model):
     image_2 = models.ImageField(upload_to='post/%Y/%m/%d', default=None, blank=True)
     image_3 = models.ImageField(upload_to='post/%Y/%m/%d', default=None, blank=True)
 
+    class Meta:
+        ordering = ['-pk']
+
+    def __str__(self):
+        return "[{}]{}({})".format(self.category, self.title, self.pk)
 
     def clean(self):
         self.price = format(int(self.price), ',d')

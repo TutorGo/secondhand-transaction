@@ -19,8 +19,6 @@ class AjaxSell(View):
         page = int(request.GET.get('offset', 8))
         category = request.GET.get('category', "")
         search_result = request.GET.get('search', "")
-        print(category)
-        print(search_result)
         if page == 8:
             page_min = 0
         else:

@@ -18,6 +18,20 @@
          <a class="category-btn" category='s' href="{% url 'post:sell_page' %}?category=s" onclick="return false;">스포츠/레저</a>
          <a class="category-btn" category='b' href="{% url 'post:sell_page' %}?category=b" onclick="return false;">도서</a>
      </div>
+     <ul class="sell_ul">
+     <li class="sell_dropdown">
+       <a href="#" data-toggle="sell_dropdown">First Menu <i class="icon-arrow"></i></a>
+       <ul class="sell_dropdown-menu">
+         <li><a class="category-btn" category='' href="{% url 'post:sell_page' %}">모든 상품</a></li>
+         <li><a class="category-btn" category='e' href="{% url 'post:sell_page' %}?category=e" onclick="return false;">전자기기</a></li>
+         <li><a class="category-btn" category='fc' href="{% url 'post:sell_page' %}?category=fc" onclick="return false;">패션의류</a></li>
+         <li><a class="category-btn" category='fg' href="{% url 'post:sell_page' %}?category=fg" onclick="return false;">패션잡화</a></li>
+         <li><a class="category-btn" category='cb' href="{% url 'post:sell_page' %}?category=cb" onclick="return false;">화장풍/미용</a></li>
+         <li><a class="category-btn" category='s' href="{% url 'post:sell_page' %}?category=s" onclick="return false;">스포츠/레저</a></li>
+         <li><a class="category-btn" category='b' href="{% url 'post:sell_page' %}?category=b" onclick="return false;">도서</a></li>
+       </ul>
+     </li>
+   </ul>
      <div class="post-register">
        글작성
      </div>

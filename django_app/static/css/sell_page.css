@@ -48,7 +48,7 @@
 }
 
 .cid-qzvQdijbXZ .container .category-bar a.category-btn {
-  width: 96px;
+  width: 94px;
   height: 44px;
   line-height: 44px;
   text-align: center;
@@ -80,4 +80,10 @@
   color: white;
   line-height: 45px;
   text-align: center;
+}
+
+@media (max-width: 767px) {
+  .cid-qzvQdijbXZ .container .category-bar {
+    display: none;
+  }
 }
