@@ -37,3 +37,12 @@ class AjaxSell(View):
 
         data = json.dumps(json_list)
         return HttpResponse(data, content_type='application/json')
+
+def ajax_detail(request, post_id):
+    post = Post.objects.get(id=post_id)
+    photo_list = [post.image_1.url, post.image_2.url, post.image_3.url]
+
+    json_post = {'title': post.title, 'photos': photo_list, 'pk': post.pk,\
+                 'category': post.get_category_display(), 'price': post.price}
+    data = json.dumps(json_post)
+    return HttpResponse(data, content_type='application/json')

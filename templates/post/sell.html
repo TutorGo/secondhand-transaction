@@ -1,7 +1,7 @@
 {% extends 'base/main.html' %}
 {% load static %}
 {% block content %}
-<section class="features18 popup-btn-cards cid-qzvQdijbXZ" id="features18-1o" data-rv-view="101">
+<section class="features18 popup-btn-cards cid-qzvQdijbXZ cid-qAEh9I8Tef" id="features18-1o" data-rv-view="101">
   <div class="container">
     <div class="search-bar">
       <form>
@@ -20,7 +20,7 @@
      </div>
      <ul class="sell_ul">
      <li class="sell_dropdown">
-       <a href="#" data-toggle="sell_dropdown">First Menu <i class="icon-arrow"></i></a>
+       <a href="#" data-toggle="sell_dropdown">Category <i class="icon-arrow"></i></a>
        <ul class="sell_dropdown-menu">
          <li><a class="category-btn" category='' href="{% url 'post:sell_page' %}">모든 상품</a></li>
          <li><a class="category-btn" category='e' href="{% url 'post:sell_page' %}?category=e" onclick="return false;">전자기기</a></li>
@@ -158,7 +158,7 @@ function loadPostList() {
         newDom[firstPost.pk].append('<div class="card p-3 col-12 col-md-6 col-lg-3"><div class="card-wrapper card'+i+' popup-btn"></div></div>');
         // newDom[firstPost.pk]에서 div.cardi 이름을 가진 클래스를 새로운 돔으로 생성
         var newDomCard = newDom[firstPost.pk].find('div.card'+i+'');
-        newDomCard.append('<div class="card-img"></div>');
+        newDomCard.append('<a href="javascript:void(0)" class="detail-btn" pk="'+CurPost.pk+'"><div class="card-img"></div></a>');
         newDomCard.append('<div class="card-box"></div>');
         newDomCard.append('<div class="card-price"></div>');
         var newDomCard_card_title = newDomCard.find('.card-box');
@@ -170,18 +170,71 @@ function loadPostList() {
         newDomCardimg.append('<div class="mbr-overlay"></div>');
         newDomCardimg.append('<div class="mbr-section-btn text-center"></div>');
         newDomCardimg.append('<img src="'+CurPost.photo+'" alt="Mobirise" media-simple="true">');
-        var newDomCard_a_tag = newDomCardimg.find('div.mbr-section-btn');
-        newDomCard_a_tag.append('<a href="https://mobirise.com" class="btn btn-primary display-4">자세히 보기</a>');
-
       }
-}
-});
+      $('.detail-btn').click(function(){
+        var post_pk = $(this).attr('pk');
+        DetailPost(post_pk);
+      });
+  }
+  });
   setTimeout(function()
     {
       isLoading = false;
     },2000);
 }
+function DetailPost(pk){
+  $.ajax({
+    url: pk,
+    success: function(data){
+      var post = data
+      var modalDom = $('<div id="myModal" class="modal"></div>');
+      $('.cid-qzvQdijbXZ .container').append(modalDom);
+      modalDom.append('<div class="modal-detail-cotent"><div class="col-md-12"><div class="media-container-row"></div></div></div>');
+      var modalDom_close = modalDom.find('.modal-detail-cotent');
+      modalDom_close = modalDom_close.append('<span class="modal-close-button">&times;</span>');
+      var modalDom_content = modalDom.find('.media-container-row');
+      modalDom_content.append('<div class="mbr-figure"></div>');
+      modalDom_content.append('<div class="align-left"></div>');
+      var modalDom_content_image = modalDom_content.find('.mbr-figure');
+      modalDom_content_image.append('<div class="swiper-container"></div>');
+      var modalDom_content_swiper = modalDom_content_image.find('.swiper-container');
+      modalDom_content_swiper.append('<div class="swiper-wrapper"></div>');
+      modalDom_content_swiper.append('<div class="swiper-pagination"></div>');
+      modalDom_content_swiper.append('<div class="swiper-button-prev"><i class="fa fa-angle-left fa-4x" aria-hidden="true"></i></div>');
 
+      modalDom_content_swiper.append('<div class="swiper-button-next"><i class="fa fa-angle-right fa-4x" aria-hidden="true"></i></div>');
+      var modalDom_content_swiper_image = modalDom_content_swiper.find('.swiper-wrapper');
+      console.log(data.photos.length)
+      for(var i = 0; i<data.photos.length; i++){
+        modalDom_content_swiper_image.append('<div class="swiper-slide"><img src="'+data.photos[i]+'"</div>');
+      }
+      // modalDom_content_swiper_image.append('<div class="swiper-slide"><img src="'+post.photos+'"</div>');
+      var modalDom_content_letter = modalDom_content.find('.align-left');
+      modalDom_content_letter.append('<h2 class="mbr-title pt-2 mbr-fonts-style display-2">['+post.category+']</h2>');
+      modalDom_content_letter.append('<h2 class="mbr-title pt-2 mbr-fonts-style display-2">'+post.title+'</h2>');
+      modalDom_content_letter.append('<div class="mbr-section-text"></div>');
+      modalDom_content_letter.append('<div class="block-content"><div class="card p-3 pr-3"><div class="card-box"></div></div></div>');
+      var modalDom_content_letter_price = modalDom_content_letter.find('.mbr-section-text');
+      modalDom_content_letter_price.append('<p class="mbr-text mb-5 pt-3 mbr-light mbr-fonts-style display-5">4000원</p>');
+      var modalDom_content_letter_detail = modalDom_content_letter.find('.card-box');
+      modalDom_content_letter_detail.append('<p class="block-text mbr-fonts-style display-7">Mobirise offers several themes that include sliders, galleries, article blocks, counters, accordions, video, animated text, live filtered tables, shop, contact forms, lightbox, testimonials, timelines, google map, progress bars and more.</p>');
+      $('.modal-close-button').click(function(){
+        $('.modal').remove();
+      });
+
+    var swiper = new Swiper('.swiper-container', {
+        pagination: '.swiper-pagination',
+        nextButton: '.swiper-button-next',
+        prevButton: '.swiper-button-prev',
+        slidesPerView: 1,
+        paginationClickable: true,
+        spaceBetween: 30,
+        loop: true
+    });
+
+    }
+  });
+}
 </script>
 
 {% endblock %}

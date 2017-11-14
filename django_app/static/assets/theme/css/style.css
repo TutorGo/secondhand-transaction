@@ -184,6 +184,18 @@ figure[mbr-media-size] {
   display: block;
   width: 100%; }
 
+@media (min-width: 992px) {
+  .mbr-figure img, .mbr-figure iframe {
+    width: 437px;
+    height: 437px;
+  }
+}
+@media (max-width: 991px) {
+  .mbr-figure img, .mbr-figure iframe {
+    height: 90%;
+    width: auto;
+  }
+}
 .card {
   background-color: transparent;
   border: none; }
@@ -204,9 +216,6 @@ figure[mbr-media-size] {
 
 .media-container > div {
   max-width: 100%; }
-
-.mbr-figure img, .card-img img {
-  width: 100%; }
 
 @media (max-width: 991px) {
   .media-size-item {

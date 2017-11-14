@@ -20,7 +20,7 @@
 }
 .sell_ul{
   max-width: 60vh;
-  min-width: 60vh;
+  min-width: 30vh;
 }
 .sell_dropdown a {
   text-decoration: none;
