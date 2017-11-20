@@ -35,6 +35,7 @@ FACEBOOK_APP_ID = 1440734386005621
 FACEBOOK_SECRET_KEY = common['facebook']['secret_key']
 
 LOGIN_REDIRECT_URL = 'main'
+LOGIN_URL = 'main'
 
 config_secret_common = json.loads(open(CONFIG_SECRET_COMMON_FILE).read())
 print(config_secret_common)
@@ -83,8 +84,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
 
-                'member.utils.context_processors.socials.facebook_info',
-                'member.utils.context_processors.socials.naver_info',
+                'utils.context_processors.socials.facebook_info',
+                'utils.context_processors.socials.naver_info',
             ],
         },
     },

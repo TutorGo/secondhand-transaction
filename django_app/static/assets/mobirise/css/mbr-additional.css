@@ -1357,7 +1357,7 @@ body {
   text-align: center;
 }
 .cid-qvy4Fy937o .card-img span {
-  font-size: 96px;
+  font-size: 150px;
   color: #149dcc;
 }
 .cid-qvy4Fy937o .card-title,
@@ -2288,5 +2288,10 @@ body {
 @media (min-width: 992px) {
  .cid-qzvQdijbXZ .container .media-container-row .card .card-wrapper .card-img{
     height:30vh;
+ }
+}
+@media (min-width: 1200px){
+ .cid-qvy4Fy937o .container{
+    max-width: 95%;
  }
 }

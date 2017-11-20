@@ -32,9 +32,11 @@
        </ul>
      </li>
    </ul>
+   <a href="{% url 'post:post_register' %}">
      <div class="post-register">
        글작성
      </div>
+     </a>
   <!--{% for post in posts %}
       {% if forloop.counter == 1 or forloop.counter0|divisibleby:4 %}
         <div class="media-container-row pt-5 ">
@@ -217,7 +219,7 @@ function DetailPost(pk){
       var modalDom_content_letter_price = modalDom_content_letter.find('.mbr-section-text');
       modalDom_content_letter_price.append('<p class="mbr-text mb-5 pt-3 mbr-light mbr-fonts-style display-5">4000원</p>');
       var modalDom_content_letter_detail = modalDom_content_letter.find('.card-box');
-      modalDom_content_letter_detail.append('<p class="block-text mbr-fonts-style display-7">Mobirise offers several themes that include sliders, galleries, article blocks, counters, accordions, video, animated text, live filtered tables, shop, contact forms, lightbox, testimonials, timelines, google map, progress bars and more.</p>');
+      modalDom_content_letter_detail.append('<p class="block-text mbr-fonts-style display-7">'+post.content+'</p>');
       $('.modal-close-button').click(function(){
         $('.modal').remove();
       });
@@ -229,7 +231,7 @@ function DetailPost(pk){
         slidesPerView: 1,
         paginationClickable: true,
         spaceBetween: 30,
-        loop: true
+        centeredSlides: true
     });
 
     }

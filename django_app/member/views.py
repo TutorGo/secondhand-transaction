@@ -7,7 +7,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.sites.shortcuts import get_current_site
 from django import forms
 from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 
 # Create your views here.
 from django.template.loader import render_to_string
@@ -16,7 +16,7 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.views.generic import CreateView
 
-from member.utils.socials_exception import DebugTokenException, GetAccessTokenException, NaverGetAccessTokenException
+from utils.socials_exception import DebugTokenException, GetAccessTokenException, NaverGetAccessTokenException
 from .forms import LoginForm, SignUpForm
 from .tokens import account_activation_token
 from .tasks import email_send
@@ -229,6 +229,8 @@ def activate(request, uidb64, token):
     else:
         return HttpResponse('Activation link is invalid!')
 
+def member_information(request):
+    return render(request, 'member/member_information.html')
 
 class Logout(LogoutView):
     def get(self, request, *args, **kwargs):

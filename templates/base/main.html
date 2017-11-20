@@ -30,7 +30,7 @@
   <link rel="stylesheet" href="{% static 'css/sell_page.min.css' %}">
   <link rel="stylesheet" href="{% static 'css/dropdown.css' %}">
   <link rel="stylesheet" href="{% static 'css/swiper.css' %}">
-
+  <link rel="stylesheet" href="{% static 'css/detail_page.css' %}">
 
 </head>
 <body>
@@ -61,7 +61,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav nav-dropdown nav-right" data-app-modern-menu="true"><li class="nav-item"><a class="nav-link link text-primary display-4" href="https://mobirise.com"></a></li>
                 <li class="nav-item"><a class="nav-link link text-primary display-4" href="https://mobirise.com">삽니다</a></li><li class="nav-item"><a class="nav-link link text-primary display-4" href="{% url 'post:sell_page' %}">팝니다</a></li><li class="nav-item"><a class="nav-link link text-primary display-4" href="{% url 'member:logout' %}">로그아웃</a></li><li class="nav-item">
-                    <a class="nav-link link text-primary display-4" href="https://mobirise.com">
+                    <a class="nav-link link text-primary display-4" href="{% url 'member:member_information' %}">
                         회원정보</a>
                 </li></ul>
         {% else %}
@@ -189,6 +189,7 @@
   <script src="{% static 'js/modal.js' %}"></script>
   <script src="{% static 'js/dropdown.js' %}"></script>
   <script src="{% static 'js/swiper.min.js' %}"></script>
+  <script src="{% static 'js/detail_page.js'%}"></script>
 
   <input name="animation" type="hidden">
   </body>

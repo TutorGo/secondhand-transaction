@@ -89,7 +89,8 @@ section {
 
 /*! Text-aligns */
 .align-left {
-  text-align: left; }
+  text-align: left;
+  width: 100%;}
 
 .align-center {
   text-align: center; }
@@ -180,14 +181,12 @@ figure {
 figure[mbr-media-size] {
   transition: width 0.1s; }
 
-.mbr-figure img, .mbr-figure iframe {
-  display: block;
-  width: 100%; }
 
 @media (min-width: 992px) {
   .mbr-figure img, .mbr-figure iframe {
-    width: 437px;
-    height: 437px;
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
   }
 }
 @media (max-width: 991px) {
