@@ -37,36 +37,15 @@
        글작성
      </div>
      </a>
-  <!--{% for post in posts %}
-      {% if forloop.counter == 1 or forloop.counter0|divisibleby:4 %}
-        <div class="media-container-row pt-5 ">
-          {% endif %}
-            <div class="card p-3 col-12 col-md-6 col-lg-3">
-                <div class="card-wrapper ">
-                    <div class="card-img">
-                        <div class="mbr-overlay"></div>
-                        <div class="mbr-section-btn text-center">
-                            <a href="https://mobirise.com" class="btn btn-primary display-4">
-                                {{ forloop.counter0 }}
-                            </a>
-                        </div>
-                        <img src="{{ post.image_1.url }}" alt="Mobirise" media-simple="true">
-                    </div>
-                    <div class="card-box">
-                        <h4 class="card-title mbr-fonts-style display-7">
-                            {{ post.title }}
-                        </h4>
-                    </div>
-                </div>
-            </div>
-            {% if forloop.counter|divisibleby:4 %}
-        </div>
-             {% endif %}
-      {% endfor %} -->
+
   </div>
 </section>
 <script type="text/javascript">
-var count = "{{ count }}";
+if ('{{ request.path }}' == '/post/sell/'){
+  var sell_or_buy = 's';
+} else {
+  var sell_or_buy = 'b';
+}
 var isLoading = false;
 var category = false;
 var search_result = false;
@@ -136,12 +115,11 @@ function loadPostList() {
   var newDom = new Array();
   var newDomCard = new Array();
   if (category || category == 'all'){
-    var sell_url = '/post/ajax/sell/?category=' + category + '&offset=' + offset;
-    console.log(sell_url);
+    var sell_url = '/post/load?kinds='+ sell_or_buy +'&category=' + category + '&offset=' + offset;
   } else if (search_result) {
-    var sell_url = '/post/ajax/sell/?search='+ search_result + '&offset=' + offset;
+    var sell_url = '/post/load?kinds='+ sell_or_buy +'&search='+ search_result + '&offset=' + offset;
   } else {
-    var sell_url = '/post/ajax/sell/?offset=' + offset;
+    var sell_url = '/post/load?kinds='+ sell_or_buy +'&offset=' + offset;
   }
   $.ajax({
     url: sell_url,
@@ -186,7 +164,7 @@ function loadPostList() {
 }
 function DetailPost(pk){
   $.ajax({
-    url: pk,
+    url: '/post/detail/'+pk,
     success: function(data){
       var post = data
       var modalDom = $('<div id="myModal" class="modal"></div>');

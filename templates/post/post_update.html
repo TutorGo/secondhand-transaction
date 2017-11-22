@@ -1,0 +1,89 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+<section class="features11 cid-qzvQdijbXZ cid-qvy4Fy937o" id="features11-1t" data-rv-view="48">
+    <div class="container">
+      <form action="{% url 'post:post_update' pk=post.pk %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+        <div class="col-md-12">
+            <div class="media-container-row">
+                <div class="mbr-figure">
+                    <div class="swiper-container">
+                      <div class="swiper-wrapper">
+                        <div class="swiper-slide"><img src="{{ post.image_1.url }}" id="img_1" alt=""></div>
+                        <div class="swiper-slide"><img src="{{ post.image_2.url }}" id="img_2" alt=""></div>
+                        <div class="swiper-slide"><img src="{{ post.image_3.url }}" id="img_3" alt=""></div>
+                      </div>
+                      <div class="swiper-pagination"></div>
+                      <div class="swiper-button-prev"><i class="fa fa-angle-left fa-4x" aria-hidden="true"></i></div>
+                      <div class="swiper-button-next"><i class="fa fa-angle-right fa-4x" aria-hidden="true"></i></div>
+                    </div>
+                    <div class="file-upload">
+                    <label for="upload" class="file-upload__label">Image_1</label>
+                    {{ form.image_1 }}
+                    </div>
+                    <div class="file-upload">
+                    <label for="upload" class="file-upload__label">Image_2</label>
+                    {{ form.image_2 }}
+                    </div>
+                    <div class="file-upload">
+                    <label for="upload" class="file-upload__label">Image_3</label>
+                    {{ form.image_3 }}
+                    </div>
+                </div>
+                <div class=" align-left">
+                  <div class="mbr-section-text">
+                    <div class="label">
+                  {{ form.sell_or_buy.label }}
+                   </div>
+                  <div class="styled-select blue semi-square">
+                      {{ form.sell_or_buy }}
+                  </div>
+                    <div class="label">
+                      {{ form.category.label }}
+                    </div>
+                  <div class="styled-select blue semi-square">
+                      {{ form.category }}
+                  </div>
+                  <div class="mat-div">
+                      <label for="first-name" class='mat-label'>Title</label>
+                          {{ form.title }}
+                  </div>
+                  <div class="mat-div">
+                      <label for="first-name" class='mat-label'>Price</label>
+                          {{ form.price }}
+                  </div>
+                  {{ form.content }}
+                  <button type="submit" class="register-btn">등록하기</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+</section>
+<script>
+function upload_img(input,pk) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      $('#img_'+pk).attr('src', e.target.result);
+    }
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+var mySwiper;
+$(document).ready(function () {
+  //initialize swiper when document ready
+    mySwiper = new Swiper ('.swiper-container', {
+    pagination: '.swiper-pagination',
+    nextButton: '.swiper-button-next',
+    prevButton: '.swiper-button-prev',
+    slidesPerView: 1,
+    paginationClickable: true,
+    spaceBetween: 30,
+  })
+});
+
+</script>
+{% endblock %}

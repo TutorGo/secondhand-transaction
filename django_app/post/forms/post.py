@@ -1,5 +1,5 @@
 from django import forms
-
+from django.utils.translation import ugettext, ugettext_lazy as _
 from post.models import Post
 
 __all__ = (
@@ -13,6 +13,15 @@ class SearchForm(forms.Form):
 
 
 class PostRegist(forms.ModelForm):
+    image_1 = forms.ImageField(required=True, error_messages={'invalid': _("Image files only")},
+                               widget=forms.FileInput(
+                                   attrs={'class': 'file-upload__input', 'onchange': "upload_img(this,1);"}))
+    image_2 = forms.ImageField(required=False, error_messages={'invalid': _("Image files only")},
+                               widget=forms.FileInput(
+                                   attrs={'class': 'file-upload__input', 'onchange': "upload_img(this,2);"}))
+    image_3 = forms.ImageField(required=False, error_messages={'invalid': _("Image files only")},
+                               widget=forms.FileInput(
+                                   attrs={'class': 'file-upload__input', 'onchange': "upload_img(this,3);"}))
     Sell = 's'
     Buy = 'b'
     SELL_OR_BUY_CHOICE = {
@@ -42,9 +51,6 @@ class PostRegist(forms.ModelForm):
             'title': forms.TextInput(attrs={'class': 'mat-input'}),
             'price': forms.TextInput(attrs={'class': 'mat-input', 'type': 'number', 'min': '0', 'max': '1000000000'}),
             'content': forms.Textarea(attrs={'placeholder': 'content'}),
-            'image_1': forms.FileInput(attrs={'class': 'file-upload__input', 'onchange': "upload_img(this,1);"}),
-            'image_2': forms.FileInput(attrs={'class': 'file-upload__input', 'onchange': "upload_img(this,2);"}),
-            'image_3': forms.FileInput(attrs={'class': 'file-upload__input', 'onchange': "upload_img(this,3);"})
         }
         fields = ['title', 'category', 'sell_or_buy', 'price', 'content', 'image_1', 'image_2', 'image_3']
 
@@ -53,3 +59,8 @@ class PostRegist(forms.ModelForm):
         if price < 0:
             forms.ValueError("0 이상의 수를 입력하세요.")
         return price
+
+class PostUpdate(PostRegist):
+    image_1 = forms.ImageField(required=False, error_messages={'invalid': _("Image files only")},
+                               widget=forms.FileInput(
+                                   attrs={'class': 'file-upload__input', 'onchange': "upload_img(this,1);"}))

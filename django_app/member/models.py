@@ -39,7 +39,6 @@ class MyUserManager(UserManager):
             nickname=nickname
         )
         user.set_password(password)
-        user.is_active = False
         user.save()
 
         return user
@@ -78,6 +77,7 @@ class MyUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
+    is_email_verification = models.BooleanField(default=True)
 
     def get_full_name(self):
         return '{} ({})'.format(
