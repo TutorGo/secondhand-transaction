@@ -215,7 +215,7 @@ class SignUpView(CreateView):
         })
         # user.email_user(subject, message)
         toemail = user.email
-        email_send(subject, message, toemail)
+        email_send.delay(subject, message, toemail)
         return HttpResponse('메일을 확인해서 인증해주세요.')
 
 
@@ -246,9 +246,8 @@ class Logout(LogoutView):
 class MyPostListView(CustomRequiredLogin, ListView):
     login_url = 'member:login'
     model = Post
-    template_name = 'member/mypost.html'
+    template_name = 'post/sell.html'
 
-    def get_queryset(self):
-        my_post = Post.objects.filter(author=self.request.user)
-        return my_post
+    def get_queryset(self,request):
+        my_post = Post.objects.filter(author=self.request)
 
