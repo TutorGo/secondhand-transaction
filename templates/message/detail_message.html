@@ -1,0 +1,20 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+<section class="features18 popup-btn-cards cid-qzvQdijbXZ cid-qAEh9I8Tef" id="features18-1o" data-rv-view="101">
+  <div class="container">
+      <label for="">보낸 사람 : {{ object.sender.nickname }}</label>
+      <br>
+      <label for="">받는 사람 : {{ object.recipient.nickname }}</label>
+      <br>
+      <div class="message-detail-content">
+      {{ object.content }}
+        </div>
+      <a href="{% url 'message:send_message' %}?nickname={{ message.sender.nickname }}"><button class='send-message-btn'>답장</button></a>
+      <form action="{% url 'message:delete_message' message_pk=object.pk %}" method="post">{% csrf_token %}
+          <button class='send-message-btn' type="submit">삭제</button>
+      </form>
+</div>
+</section>
+
+{% endblock %}

@@ -2,10 +2,12 @@ import json
 
 from django.shortcuts import render, HttpResponse
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.generic import CreateView, FormView, UpdateView
+from django.views.generic import CreateView, FormView, UpdateView, DeleteView
 from django.db.models import Q
 
+from post.decorators import post_owner
 from post.forms import SearchForm
 from post.forms.post import PostRegist, PostUpdate
 from utils.custom_login import CustomRequiredLogin
@@ -55,7 +57,8 @@ class AjaxDetail(CustomRequiredLogin, View):
         photo_list = [post.image_1.url, post.image_2.url, post.image_3.url]
 
         json_post = {'title': post.title, 'photos': photo_list, 'pk': post.pk, \
-                     'category': post.get_category_display(), 'price': post.price, 'content': post.content}
+                     'category': post.get_category_display(), 'price': post.price, 'content': post.content,\
+                     'nickname': post.author.nickname}
         data = json.dumps(json_post)
         return HttpResponse(data, content_type='application/json')
 
@@ -71,6 +74,7 @@ class PostRegister(CustomRequiredLogin, CreateView):
         return super(PostRegister, self).form_valid(form)
 
 
+@method_decorator(post_owner, name='dispatch')
 class PostUpdate(CustomRequiredLogin, UpdateView):
     model = Post
     form_class = PostUpdate
@@ -86,11 +90,8 @@ class PostUpdate(CustomRequiredLogin, UpdateView):
         return initial
 
 
-# def post_update(request, pk):
-#     post = Post.objects.get(id=pk)
-#     form = PostRegist(instance=post)
-#     context = {
-#         'form': form,
-#         'post': post
-#     }
-#     return render(request, 'post/post_update.html', context)
+@method_decorator(post_owner, name='dispatch')
+class PostDelete(CustomRequiredLogin, DeleteView):
+    model = Post
+    success_url = reverse_lazy('member:my_post')
+

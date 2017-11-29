@@ -31,7 +31,7 @@
   <link rel="stylesheet" href="{% static 'css/dropdown.css' %}">
   <link rel="stylesheet" href="{% static 'css/swiper.css' %}">
   <link rel="stylesheet" href="{% static 'css/detail_page.css' %}">
-
+  <link rel="stylesheet" href="{% static 'css/pagination.css' %}">
 </head>
 <body>
 <section class="menu cid-qvxSrJXlqo" once="menu" id="menu1-15" data-rv-view="17">
@@ -98,7 +98,7 @@
         <div class="media-container-row">
 
             <div class="card p-3 col-12 col-md-6">
-                <a href="">
+                <a href="{% url 'post:buy_page' %}">
                 <div class="card-img pb-3">
                     <img src="{% static 'svg/mbri-bootstrap.svg' %}" alt="" class="mbr-iconfont" width="96" height="96">
                 </div>

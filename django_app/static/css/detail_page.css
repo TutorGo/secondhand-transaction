@@ -69,7 +69,10 @@
    font-size: 14px;
    height: 29px;
    padding: 5px; /* If you add too much padding here, the options won't show in IE */
-   width: 120%;
+   width: 103%;
+}
+.styled-select option{
+   color: #134074;
 }
 
 .styled-select.slate {
@@ -224,4 +227,7 @@ textarea{
   width: 100%;
   background-color: #134074;
   color: white;
+}
+.register-btn:nth-child(2){
+  margin-top: 20px;
 }

@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.main, name='main'),
     url(r'^member/', include('member.urls')),
-    url(r'^post/', include('post.urls'))
+    url(r'^post/', include('post.urls')),
+    url(r'^message/', include('message.urls'))
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

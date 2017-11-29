@@ -15,22 +15,24 @@ from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.views.generic import CreateView, ListView
+from django.views import View
+from django.views.generic import CreateView, ListView, UpdateView
 
 from post.models import Post
 from utils.custom_login import CustomRequiredLogin
 from utils.socials_exception import DebugTokenException, GetAccessTokenException, NaverGetAccessTokenException
-from .forms import LoginForm, SignUpForm
+from .forms import LoginForm, SignUpForm, NicknameChangeForm, EmailInputForm, UserPasswordChangeForm
 from .tokens import account_activation_token
 from .tasks import email_send
 
-User = get_user_model()
+MyUser = get_user_model()
 
 
 class Login(LoginView):
     template_name = 'member/login.html'
     authentication_form = LoginForm
     redirect_field_name = 'main'
+
 
 def facebook_login(request):
     # facebook 로그인 버튼을 누르면 code를 반환한다.
@@ -121,7 +123,7 @@ def facebook_login(request):
         debug_result = debug_access_token(access_token)
         print(debug_result)
         user_info = get_user_info(user_id=debug_result['data']['user_id'], token=access_token)
-        user = User.objects.get_or_create_facebook_user(user_info)
+        user = MyUser.objects.get_or_create_facebook_user(user_info)
 
         django_login(request, user)
         return redirect('main')
@@ -188,7 +190,7 @@ def naver_login(request):
     try:
         access_token = get_access_token(code)
         user_info = get_user_info(access_token['access_token'])
-        user = User.objects.get_or_create_naver_user(user_info)
+        user = MyUser.objects.get_or_create_naver_user(user_info)
         django_login(request, user)
         return redirect('main')
     except NaverGetAccessTokenException as e:
@@ -213,7 +215,7 @@ class SignUpView(CreateView):
             'uid': urlsafe_base64_encode(force_bytes(user.pk)),
             'token': account_activation_token.make_token(user),
         })
-        # user.email_user(subject, message)
+        # user.email_user(sPasswordChangeFormubject, message)
         toemail = user.email
         email_send.delay(subject, message, toemail)
         return HttpResponse('메일을 확인해서 인증해주세요.')
@@ -222,8 +224,8 @@ class SignUpView(CreateView):
 def activate(request, uidb64, token):
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
-        user = User.objects.get(pk=uid)
-    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = MyUser.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, MyUser.DoesNotExist):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
         user.is_email_verification = True
@@ -246,8 +248,90 @@ class Logout(LogoutView):
 class MyPostListView(CustomRequiredLogin, ListView):
     login_url = 'member:login'
     model = Post
-    template_name = 'post/sell.html'
+    template_name = 'member/mypost.html'
 
-    def get_queryset(self,request):
-        my_post = Post.objects.filter(author=self.request)
+    def get_queryset(self):
+        my_post = Post.objects.filter(author=self.request.user)
+        return my_post
 
+
+class ChangeNicknameView(View):
+    def get(self, request):
+        form = NicknameChangeForm(initial={'nickname': request.user.nickname})
+        context = {
+            'form': form
+        }
+        return render(request, 'member/nickname_change.html', context)
+
+    def post(self, request):
+        form = NicknameChangeForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('member:member_information')
+        context = {
+            'form': form
+        }
+        return render(request, 'member/nickname_change.html', context)
+
+
+class PasswordChangeInputEmail(View):
+    def get(self, request):
+        form = EmailInputForm()
+        context = {
+            'form': form
+        }
+        return render(request, 'member/email_input.html', context)
+
+    def post(self, request):
+        form = EmailInputForm(data=request.POST)
+        if form.is_valid():
+            user = MyUser.objects.get(email=request.POST['email'])
+            current_site = get_current_site(self.request)
+            subject = 'Change Password.'
+            message = render_to_string('member/password_change_email.html', {
+                'user': user, 'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': account_activation_token.make_token(user),
+            })
+            # user.email_user(sPasswordChangeFormubject, message)
+            toemail = user.email
+            email_send(subject, message, toemail)
+            return HttpResponse('메일을 확인해주세요')
+        context = {
+            'form': form
+        }
+        return render(request, 'member/email_input.html', context)
+
+class PasswordChangeView(View):
+    def get(self,request, uidb64, token):
+        try:
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = MyUser.objects.get(pk=uid)
+        except(TypeError, ValueError, OverflowError, MyUser.DoesNotExist):
+            user = None
+        if user is not None and account_activation_token.check_token(user, token):
+            form = UserPasswordChangeForm(user)
+            context = {
+                'form': form
+            }
+            return render(request, 'member/password_change.html', context)
+        else:
+            return HttpResponse('Activation link is invalid!')
+
+    def post(self, request, uidb64, token):
+        try:
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = MyUser.objects.get(pk=uid)
+        except(TypeError, ValueError, OverflowError, MyUser.DoesNotExist):
+            user = None
+        if user is not None and account_activation_token.check_token(user, token):
+            form = UserPasswordChangeForm(user=user, data=request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('member:login')
+            context = {
+                'form': form
+            }
+            return render(request, 'member/password_change.html', context)
+        else:
+            return HttpResponse('Activation link is invalid!')

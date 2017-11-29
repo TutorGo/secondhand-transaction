@@ -195,9 +195,11 @@ function DetailPost(pk){
       modalDom_content_letter.append('<div class="mbr-section-text"></div>');
       modalDom_content_letter.append('<div class="block-content"><div class="card p-3 pr-3"><div class="card-box"></div></div></div>');
       var modalDom_content_letter_price = modalDom_content_letter.find('.mbr-section-text');
-      modalDom_content_letter_price.append('<p class="mbr-text mb-5 pt-3 mbr-light mbr-fonts-style display-5">4000원</p>');
+      modalDom_content_letter_price.append('<p class="mbr-text mb-5 pt-3 mbr-light mbr-fonts-style display-5">'+post.price+'</p>');
       var modalDom_content_letter_detail = modalDom_content_letter.find('.card-box');
       modalDom_content_letter_detail.append('<p class="block-text mbr-fonts-style display-7">'+post.content+'</p>');
+      modalDom_content_letter.append('<div class="mbr-section-text"><a href="{% url "message:send_message"%}?nickname='+post.nickname+'"><button class="send-message-btn">Send Message</button></a></form></div>');
+
       $('.modal-close-button').click(function(){
         $('.modal').remove();
       });

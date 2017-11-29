@@ -56,6 +56,7 @@ INSTALLED_APPS = [
 
     'member',
     'post',
+    'message',
     'django_celery_results',
 ]
 

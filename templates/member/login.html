@@ -19,8 +19,8 @@
     <button type="submit" class="login-button">로그인</button>
   </form>
   <div class="login-id-or-wrap">
-    <a href="" class="login-email-search">아이디 찾기</a>
-    <a href="" class="login-password-search">비밀번호 찾기</a>
+    <a href="{% url 'member:signup' %}" class="login-email-search">회원가입</a>
+    <a href="{% url 'member:input_email' %}" class="login-password-search">비밀번호 찾기</a>
   </div>
   <div class="facebook-or-naver-wrap">
     <a href="https://www.facebook.com/v2.10/dialog/oauth?client_id={{ facebook_app_id }}&redirect_uri={{ site_url }}{% url 'member:facebook_login' %}">

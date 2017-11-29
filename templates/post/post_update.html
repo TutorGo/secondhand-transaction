@@ -3,7 +3,6 @@
 {% block content %}
 <section class="features11 cid-qzvQdijbXZ cid-qvy4Fy937o" id="features11-1t" data-rv-view="48">
     <div class="container">
-      <form action="{% url 'post:post_update' pk=post.pk %}" method="post" enctype="multipart/form-data">{% csrf_token %}
         <div class="col-md-12">
             <div class="media-container-row">
                 <div class="mbr-figure">
@@ -17,6 +16,7 @@
                       <div class="swiper-button-prev"><i class="fa fa-angle-left fa-4x" aria-hidden="true"></i></div>
                       <div class="swiper-button-next"><i class="fa fa-angle-right fa-4x" aria-hidden="true"></i></div>
                     </div>
+                    <form action="{% url 'post:post_update' pk=post.pk %}" method="post" enctype="multipart/form-data">{% csrf_token %}
                     <div class="file-upload">
                     <label for="upload" class="file-upload__label">Image_1</label>
                     {{ form.image_1 }}
@@ -53,13 +53,16 @@
                           {{ form.price }}
                   </div>
                   {{ form.content }}
-                  <button type="submit" class="register-btn">등록하기</button>
-                    </div>
+                  <button type="submit" class="register-btn">수정하기</button>
+                </form>
+                  <form action="{% url 'post:post_delete' pk=post.pk %}" method="post">{% csrf_token%}
+                  <button type="submit" class="register-btn">삭제하기</button>
+                  </form>
+                 </div>
                 </div>
             </div>
         </div>
-        </form>
-    </div>
+      </div>
 </section>
 <script>
 function upload_img(input,pk) {

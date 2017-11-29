@@ -2267,6 +2267,47 @@ body {
   text-align: left;
   color: #767676;
 }
+.send-message-btn{
+  width: 100%;
+  border-radius: 10px;
+  background: #134072;
+  color: white;
+}
+.cid-qzvQdijbXZ .counter-container {
+  color: #767676;
+}
+.cid-qzvQdijbXZ .counter-container ul {
+  margin-bottom: 0;
+}
+.cid-qzvQdijbXZ .counter-container ul li {
+  margin-bottom: 1rem;
+  list-style: none;
+}
+.message-detail-content{
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #134074;
+  min-height: 20rem;
+  padding: 20px;
+  border-radius: 20px;
+}
+.password-change-a{
+  text-align: center;
+}
+.password-change-btn{
+  width: 50%;
+  margin-top: 57px;
+  height: 5rem;
+  background: #134074;
+  color: white;
+}
+.password-change-btn2{
+  width: 100%;
+  margin-top: 57px;
+  height: 3rem;
+  background: #134074;
+  color: white;
+}
 @media (min-width: 992px) {
   .cid-qzvQdijbXZ .mbr-figure {
     padding-right: 4rem;

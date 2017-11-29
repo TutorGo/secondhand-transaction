@@ -1,0 +1,36 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+<section class="features1 cid-qvy4Fy937o" id="features1-20" data-rv-view="83">
+     {% if form.errors %}
+      <!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    {% for field in form %}
+       {% for error in field.errors %}
+           <p> {{ error }} </p>
+       {% endfor %}
+   {% endfor %}
+  </div>
+  <span class="close-button">&times;</span>
+
+</div>
+    {% endif %}
+    <div class="container">
+        <div class="media-container-row">
+            <div class="card p-3 col-12 col-md-12 col-lg-12">
+                <div class="mat-div">
+                    <form action="" method="post">{% csrf_token %}
+
+                    <label for="first-name" class='mat-label'>Email</label>
+                        {{ form.email }}
+                    </div>
+                    <button type="submit" class="register-btn">email send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

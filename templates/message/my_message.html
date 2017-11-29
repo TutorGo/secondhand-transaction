@@ -1,0 +1,51 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+<section class="mbr-section article content12 cid-qzvQdijbXZ cid-qAEh9I8Tef" id="features18-1o" data-rv-view="101">
+
+  <div class="container">
+    <span class="custom-dropdown">
+      <select onChange="window.location.href=this.value">
+          <option value={{ url }}>{{ option }}</option>
+          <option value={{ url2 }}>{{ option2 }}</option>
+      </select>
+    </span>
+          <div class="mbr-text counter-container mbr-fonts-style display-7">
+              <ul>
+                {% for message in messages %}
+                <a href="{% url 'message:detail_message' pk=message.pk %}">
+                  <li><strong> {{ message.sender.nickname }} </strong> <br>
+                    {{ message.content }} </li>
+                  </a>
+                  {% endfor %}
+
+              </ul>
+      </div>
+      {% if is_paginated %}
+      <div class="message_pagination p1">
+      <ul class>
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}"><li><</li></a>
+        {% else %}
+          <a href=""><li><</li></a>
+        {% endif %}
+        {% for i in paginator.page_range %}
+          {% if page_obj.number == i %}
+          <a class="is-active"><li>{{ i }}</li></a>
+          {% else %}
+            <a href="?page={{ i }}"><li>{{ i }}</li></a>
+          {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}"><li>></li></a>
+        {% else %}
+          <a href=""><li>></li></a>
+        {% endif %}
+      </ul>
+      </div>
+      {% endif %}
+
+  </div>
+</section>
+
+{% endblock %}
